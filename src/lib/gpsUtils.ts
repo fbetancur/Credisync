@@ -62,8 +62,8 @@ export async function obtenerUbicacionActual(): Promise<Coordenadas | null> {
       },
       {
         enableHighAccuracy: true,
-        timeout: 10000,
-        maximumAge: 0,
+        timeout: 30000, // 30 segundos
+        maximumAge: 60000, // Acepta ubicación de hasta 1 minuto
       }
     );
   });

@@ -294,6 +294,7 @@ export default function ClienteDetail({ clienteId, onBack, onOtorgarCredito }: C
       {/* Botones Secundarios */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
         <button
+          onClick={() => alert('Funcionalidad de historial completo en desarrollo')}
           style={{
             width: '100%',
             padding: '12px',
@@ -309,6 +310,7 @@ export default function ClienteDetail({ clienteId, onBack, onOtorgarCredito }: C
           📋 Ver Historial Completo
         </button>
         <button
+          onClick={() => alert('Funcionalidad de edición en desarrollo')}
           style={{
             width: '100%',
             padding: '12px',

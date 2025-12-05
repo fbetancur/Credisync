@@ -259,7 +259,7 @@ export default function CierreCajaComponent() {
   const gastos = cierreActual.movimientos.filter(m => m.tipo === 'GASTO');
 
   return (
-    <div style={{ backgroundColor: '#f5f5f5', minHeight: '100vh' }}>
+    <div>
       {/* Header */}
       <div style={{
         display: 'flex',

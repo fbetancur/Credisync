@@ -5,11 +5,13 @@ import { Amplify } from "aws-amplify";
 import outputs from "../amplify_outputs.json";
 import ClientesList from "./components/Clientes/ClientesList";
 import CreditoForm from "./components/Creditos/CreditoForm";
+import CobrosList from "./components/Cobros/CobrosList";
+import RutasList from "./components/Rutas/RutasList";
 
 Amplify.configure(outputs);
 
 export default function App() {
-  const [vistaActual, setVistaActual] = useState<'clientes' | 'creditos'>('clientes');
+  const [vistaActual, setVistaActual] = useState<'cobros' | 'clientes' | 'creditos' | 'rutas'>('cobros');
 
   return (
     <Authenticator>
@@ -51,7 +53,37 @@ export default function App() {
             </div>
 
             {/* Navegación */}
-            <div style={{ display: 'flex', gap: '10px' }}>
+            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => setVistaActual('cobros')}
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: vistaActual === 'cobros' ? 'white' : 'transparent',
+                  color: vistaActual === 'cobros' ? '#6f42c1' : 'white',
+                  border: vistaActual === 'cobros' ? 'none' : '1px solid white',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                }}
+              >
+                💵 Cobros
+              </button>
+              <button
+                onClick={() => setVistaActual('rutas')}
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: vistaActual === 'rutas' ? 'white' : 'transparent',
+                  color: vistaActual === 'rutas' ? '#6f42c1' : 'white',
+                  border: vistaActual === 'rutas' ? 'none' : '1px solid white',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                }}
+              >
+                🗺️ Rutas
+              </button>
               <button
                 onClick={() => setVistaActual('clientes')}
                 style={{
@@ -86,6 +118,8 @@ export default function App() {
           </div>
           
           {/* Contenido */}
+          {vistaActual === 'cobros' && <CobrosList />}
+          {vistaActual === 'rutas' && <RutasList />}
           {vistaActual === 'clientes' && <ClientesList />}
           {vistaActual === 'creditos' && <CreditoForm />}
         </main>

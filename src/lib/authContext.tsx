@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       // Obtener usuario autenticado de Cognito
       const currentUser = await getCurrentUser();
-      const session = await fetchAuthSession();
+      await fetchAuthSession(); // Verificar sesión activa
 
       // TODO: Obtener datos completos del usuario desde la base de datos
       // Por ahora, usar datos de ejemplo

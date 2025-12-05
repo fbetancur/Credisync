@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { db } from '../../lib/db';
 import { validarNuevoCredito } from '../../lib/creditoValidations';
-import { format } from 'date-fns';
 
 interface ClienteDetailProps {
   clienteId: string;

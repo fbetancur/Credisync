@@ -49,6 +49,10 @@ export default function RutaDelDia() {
     const ubicacion = await obtenerUbicacionActual();
     if (ubicacion) {
       setUbicacionActual(ubicacion);
+      setMensaje(''); // Limpiar mensaje de error si se obtiene ubicación
+    } else {
+      // Solo mostrar mensaje si realmente no se pudo obtener
+      console.log('No se pudo obtener ubicación GPS');
     }
   };
 
@@ -94,17 +98,24 @@ export default function RutaDelDia() {
   };
 
   const optimizarRuta = async () => {
+    // Intentar obtener ubicación nuevamente
     if (!ubicacionActual) {
-      setMensaje('❌ No se pudo obtener tu ubicación. Activa el GPS.');
-      return;
+      setMensaje('🔄 Obteniendo tu ubicación...');
+      const ubicacion = await obtenerUbicacionActual();
+      if (ubicacion) {
+        setUbicacionActual(ubicacion);
+      } else {
+        setMensaje('❌ No se pudo obtener tu ubicación. Verifica los permisos de ubicación en Configuración > Safari > Ubicación.');
+        return;
+      }
     }
 
     setOptimizando(true);
     setMensaje('🔄 Optimizando ruta...');
 
     try {
-      // Ordenar por distancia
-      const cuotasOrdenadas = ordenarPorDistancia(cuotas, ubicacionActual);
+      // Ordenar por distancia (ubicacionActual ya está verificado arriba)
+      const cuotasOrdenadas = ordenarPorDistancia(cuotas, ubicacionActual!);
 
       // Actualizar ordenRuta en cada cuota
       const cuotasConOrden = cuotasOrdenadas.map((cuota, index) => ({
@@ -119,7 +130,7 @@ export default function RutaDelDia() {
 
       setCuotas(cuotasConOrden);
 
-      const distanciaTotal = calcularDistanciaTotal(cuotasConOrden, ubicacionActual);
+      const distanciaTotal = calcularDistanciaTotal(cuotasConOrden, ubicacionActual!);
       const tiempoEstimado = calcularTiempoEstimado(distanciaTotal, cuotasConOrden.length);
 
       setMensaje(
@@ -296,16 +307,16 @@ export default function RutaDelDia() {
         {optimizando ? '⏳ Optimizando...' : '🎯 Optimizar Ruta por Distancia'}
       </button>
 
-      {!ubicacionActual && (
+      {!ubicacionActual && cuotasPendientes.length > 0 && (
         <div style={{
           padding: '15px',
-          backgroundColor: '#fff3cd',
-          border: '1px solid #ffeeba',
+          backgroundColor: '#d1ecf1',
+          border: '1px solid #bee5eb',
           borderRadius: '8px',
           marginBottom: '20px',
           fontSize: '14px',
         }}>
-          ⚠️ No se pudo obtener tu ubicación. Activa el GPS para optimizar la ruta.
+          ℹ️ Para optimizar la ruta automáticamente, haz click en "Optimizar Ruta" y permite el acceso a tu ubicación cuando el navegador lo solicite.
         </div>
       )}
 

@@ -698,6 +698,7 @@ export default function CierreCajaComponent() {
               </label>
               <input
                 type="number"
+                inputMode="decimal"
                 value={valorEntrada}
                 onChange={(e) => setValorEntrada(e.target.value)}
                 placeholder="0"
@@ -791,6 +792,7 @@ export default function CierreCajaComponent() {
               </label>
               <input
                 type="number"
+                inputMode="decimal"
                 value={valorGasto}
                 onChange={(e) => setValorGasto(e.target.value)}
                 placeholder="0"

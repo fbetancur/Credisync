@@ -113,9 +113,18 @@ export default function ClientesList() {
       return;
     }
 
+    // GPS es opcional, solo advertencia
     if (!ubicacion) {
-      setMensaje('❌ Debes capturar la ubicación GPS del cliente');
-      return;
+      const confirmar = window.confirm(
+        '⚠️ No has capturado la ubicación GPS.\n\n' +
+        'Sin GPS no podrás:\n' +
+        '- Optimizar rutas automáticamente\n' +
+        '- Ver al cliente en el mapa\n\n' +
+        '¿Deseas continuar sin GPS?'
+      );
+      if (!confirmar) {
+        return;
+      }
     }
 
     setLoading(true);
@@ -132,8 +141,8 @@ export default function ClientesList() {
         direccion: formData.direccion || undefined,
         barrio: formData.barrio || undefined,
         referencia: formData.referencia || undefined,
-        latitud: ubicacion.lat,
-        longitud: ubicacion.lng,
+        latitud: ubicacion?.lat,
+        longitud: ubicacion?.lng,
         fiadorNombre: formData.fiadorNombre || undefined,
         fiadorTelefono: formData.fiadorTelefono || undefined,
         estado: 'ACTIVO' as const,
@@ -154,8 +163,8 @@ export default function ClientesList() {
           direccion: formData.direccion || undefined,
           barrio: formData.barrio || undefined,
           referencia: formData.referencia || undefined,
-          latitud: ubicacion.lat,
-          longitud: ubicacion.lng,
+          latitud: ubicacion?.lat,
+          longitud: ubicacion?.lng,
           fiadorNombre: formData.fiadorNombre || undefined,
           fiadorTelefono: formData.fiadorTelefono || undefined,
           estado: 'ACTIVO',
@@ -226,10 +235,12 @@ export default function ClientesList() {
     );
   }
 
-  // Si hay un cliente para crédito, mostrar formulario de crédito
+  // Si hay un cliente para crédito, redirigir a la vista de créditos
+  // Esto se manejará mejor desde App.tsx en el futuro
+  // Por ahora, mostrar mensaje y volver
   if (clienteParaCredito) {
     return (
-      <div style={{ padding: '20px' }}>
+      <div>
         <button
           onClick={() => setClienteParaCredito(null)}
           style={{
@@ -242,18 +253,27 @@ export default function ClientesList() {
             marginBottom: '20px',
           }}
         >
-          ← Volver
+          ← Volver a Clientes
         </button>
         <div style={{
           padding: '20px',
-          backgroundColor: '#e3f2fd',
+          backgroundColor: '#fff3cd',
           borderRadius: '8px',
           marginBottom: '20px',
+          border: '2px solid #ffc107',
         }}>
-          <h3>🎯 Otorgar Crédito</h3>
-          <p>Cliente ID: {clienteParaCredito}</p>
-          <p style={{ fontSize: '14px', color: '#666' }}>
-            Aquí se mostrará el formulario de crédito (CreditoForm) con el cliente pre-seleccionado
+          <h3 style={{ marginTop: 0 }}>🎯 Otorgar Crédito</h3>
+          <p style={{ fontSize: '16px', marginBottom: '15px' }}>
+            Para otorgar un crédito a este cliente:
+          </p>
+          <ol style={{ fontSize: '14px', lineHeight: '2' }}>
+            <li>Haz click en el botón "← Volver a Clientes"</li>
+            <li>Luego ve a la pestaña "💳 Créditos" en el menú superior</li>
+            <li>Selecciona el cliente en el formulario</li>
+            <li>Completa los datos del crédito</li>
+          </ol>
+          <p style={{ fontSize: '13px', color: '#856404', marginTop: '15px' }}>
+            💡 Tip: Esta funcionalidad se integrará mejor en una próxima actualización
           </p>
         </div>
       </div>

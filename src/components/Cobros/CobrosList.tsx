@@ -443,6 +443,7 @@ export default function CobrosList() {
               </label>
               <input
                 type="number"
+                inputMode="decimal"
                 value={montoPago}
                 onChange={(e) => setMontoPago(e.target.value)}
                 style={{

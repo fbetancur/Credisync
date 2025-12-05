@@ -21,6 +21,9 @@ export default function App() {
       {({ signOut, user }) => (
         <main style={{ minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
           <div style={{ 
+            position: 'sticky',
+            top: 0,
+            zIndex: 1000,
             padding: '10px 12px', 
             backgroundColor: '#6f42c1',
             color: 'white',
@@ -205,13 +208,15 @@ export default function App() {
             </div>
           </div>
           
-          {vistaActual === 'rutaDelDia' && <RutaDelDia />}
-          {vistaActual === 'cobros' && <CobrosList />}
-          {vistaActual === 'cierreCaja' && <CierreCaja />}
-          {vistaActual === 'productos' && <ProductosList />}
-          {vistaActual === 'rutas' && <RutasList />}
-          {vistaActual === 'clientes' && <ClientesList />}
-          {vistaActual === 'creditos' && <CreditoForm />}
+          <div style={{ padding: '12px' }}>
+            {vistaActual === 'rutaDelDia' && <RutaDelDia />}
+            {vistaActual === 'cobros' && <CobrosList />}
+            {vistaActual === 'cierreCaja' && <CierreCaja />}
+            {vistaActual === 'productos' && <ProductosList />}
+            {vistaActual === 'rutas' && <RutasList />}
+            {vistaActual === 'clientes' && <ClientesList />}
+            {vistaActual === 'creditos' && <CreditoForm />}
+          </div>
         </main>
       )}
     </Authenticator>

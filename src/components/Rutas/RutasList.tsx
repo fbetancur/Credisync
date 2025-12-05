@@ -249,7 +249,7 @@ export default function RutasList() {
   const clientesSinRuta = clientes.filter(c => !c.rutaId);
 
   return (
-    <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
+    <div style={{ padding: '0' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h2>🗺️ Rutas</h2>
         <button

@@ -290,7 +290,7 @@ export default function CreditoForm({ clienteId, onSuccess }: CreditoFormProps) 
     : 0;
 
   return (
-    <div style={{ padding: '20px', maxWidth: '900px', margin: '0 auto' }}>
+    <div style={{ padding: '0' }}>
       <h2>💳 Otorgar Crédito</h2>
 
       {mensaje && (

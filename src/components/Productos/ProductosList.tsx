@@ -227,7 +227,7 @@ export default function ProductosList() {
   const ejemplo = calcularEjemplo();
 
   return (
-    <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
+    <div style={{ padding: '0' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h2>💰 Productos de Crédito</h2>
         <button

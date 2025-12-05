@@ -415,5 +415,29 @@ La aplicación ahora es **100% mobile-first** con:
 ✅ Sin scroll horizontal
 ✅ Espaciado optimizado
 ✅ Funciona en pantallas desde 320px
+✅ Header sticky siempre visible
+✅ Contenido con padding adecuado (nunca oculto)
 
 **¡La navegación ahora es perfecta en cualquier dispositivo!** 📱
+
+---
+
+## 🔄 Última Actualización: Header Sticky + Padding
+
+### Problema Final Resuelto:
+En algunas vistas el contenido quedaba oculto detrás del header sticky.
+
+### Solución:
+```tsx
+<div style={{ padding: '12px' }}>
+  {/* Vistas de la aplicación */}
+</div>
+```
+
+**Resultado:**
+- ✅ Header siempre visible al hacer scroll
+- ✅ Contenido nunca oculto detrás del header
+- ✅ Espaciado visual adecuado
+- ✅ Experiencia de usuario perfecta
+
+Ver más detalles en: `HEADER_STICKY.md`

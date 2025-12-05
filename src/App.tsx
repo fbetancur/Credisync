@@ -1,40 +1,28 @@
 import { useEffect, useState } from "react";
-import type { Schema } from "../amplify/data/resource";
-import { generateClient } from "aws-amplify/data";
+import { Authenticator } from "@aws-amplify/ui-react";
+import "@aws-amplify/ui-react/styles.css";
+import { Amplify } from "aws-amplify";
+import outputs from "../amplify_outputs.json";
+import TestDatabase from "./components/TestDatabase";
 
-const client = generateClient<Schema>();
+Amplify.configure(outputs);
 
-function App() {
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
-
-  useEffect(() => {
-    client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
-    });
-  }, []);
-
-  function createTodo() {
-    client.models.Todo.create({ content: window.prompt("Todo content") });
-  }
-
+export default function App() {
   return (
-    <main>
-      <h1>My todos</h1>
-      <button onClick={createTodo}>+ new</button>
-      <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>{todo.content}</li>
-        ))}
-      </ul>
-      <div>
-        🥳 App successfully hosted. Try creating a new todo.
-        <br />
-        <a href="https://docs.amplify.aws/react/start/quickstart/#make-frontend-updates">
-          Review next step of this tutorial.
-        </a>
-      </div>
-    </main>
+    <Authenticator>
+      {({ signOut, user }) => (
+        <main>
+          <div style={{ padding: '20px', textAlign: 'center', borderBottom: '1px solid #ccc' }}>
+            <h1>🏦 CrediSync360</h1>
+            <p>Usuario: {user?.signInDetails?.loginId}</p>
+            <button onClick={signOut} style={{ padding: '8px 16px', cursor: 'pointer' }}>
+              Cerrar Sesión
+            </button>
+          </div>
+          
+          <TestDatabase />
+        </main>
+      )}
+    </Authenticator>
   );
 }
-
-export default App;

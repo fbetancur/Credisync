@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { generateClient } from 'aws-amplify/data';
 import { db } from '../../lib/db';
 import { addDays, format, isSunday } from 'date-fns';
+import { eventBus } from '../../lib/eventBus';
+import { invalidarCacheCliente } from '../../lib/clienteUtils';
 
 // @ts-ignore
 const client = generateClient();
@@ -262,6 +264,17 @@ export default function CreditoForm({ clienteId, onSuccess }: CreditoFormProps) 
       }
 
       setMensaje('✅ Crédito otorgado exitosamente');
+      
+      // Invalidar cache del cliente
+      invalidarCacheCliente(clienteSeleccionado.id);
+      
+      // Emitir evento para que otros componentes se actualicen
+      eventBus.emit('credito-creado', {
+        creditoId,
+        clienteId: clienteSeleccionado.id,
+        monto: montoNum,
+        totalAPagar: Math.round(totalAPagar),
+      });
       
       // Resetear formulario
       setTimeout(() => {

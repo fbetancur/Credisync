@@ -3,6 +3,8 @@ import { db } from '../../lib/db';
 import { format, parseISO, differenceInDays } from 'date-fns';
 import { generateClient } from 'aws-amplify/data';
 import type { Schema } from '../../../amplify/data/resource';
+import { eventBus } from '../../lib/eventBus';
+import { invalidarCacheCliente } from '../../lib/clienteUtils';
 
 const client = generateClient<Schema>();
 
@@ -213,6 +215,18 @@ export default function CobrosList() {
       setCuotaSeleccionada(null);
       setMontoPago('');
       setObservaciones('');
+      
+      // Invalidar cache del cliente
+      invalidarCacheCliente(cuotaSeleccionada.clienteId);
+      
+      // Emitir evento para que otros componentes se actualicen
+      eventBus.emit('pago-registrado', {
+        pagoId,
+        creditoId: cuotaSeleccionada.creditoId,
+        cuotaId: cuotaSeleccionada.id,
+        clienteId: cuotaSeleccionada.clienteId,
+        monto: montoNum,
+      });
       
       cargarCuotasDelDia();
       cargarEstadisticas();

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { db } from '../../lib/db';
 import { validarNuevoCredito } from '../../lib/creditoValidations';
+import { eventBus } from '../../lib/eventBus';
 
 interface ClienteDetailProps {
   clienteId: string;
@@ -17,6 +18,38 @@ export default function ClienteDetail({ clienteId, onBack, onOtorgarCredito }: C
 
   useEffect(() => {
     cargarCliente();
+
+    // Suscribirse a eventos de pagos y créditos
+    const unsubscribePago = eventBus.on('pago-registrado', (data) => {
+      // Si el pago es de este cliente, recargar datos
+      if (data.clienteId === clienteId) {
+        console.log('💰 Pago registrado para este cliente, recargando datos...');
+        cargarCliente();
+      }
+    });
+
+    const unsubscribeCredito = eventBus.on('credito-creado', (data) => {
+      // Si el crédito es de este cliente, recargar datos
+      if (data.clienteId === clienteId) {
+        console.log('💳 Crédito creado para este cliente, recargando datos...');
+        cargarCliente();
+      }
+    });
+
+    const unsubscribeCreditoActualizado = eventBus.on('credito-actualizado', (data) => {
+      // Si el crédito es de este cliente, recargar datos
+      if (data.clienteId === clienteId) {
+        console.log('💳 Crédito actualizado para este cliente, recargando datos...');
+        cargarCliente();
+      }
+    });
+
+    // Cleanup: desuscribirse al desmontar
+    return () => {
+      unsubscribePago();
+      unsubscribeCredito();
+      unsubscribeCreditoActualizado();
+    };
   }, [clienteId]);
 
   const cargarCliente = async () => {

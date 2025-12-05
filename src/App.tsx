@@ -7,17 +7,17 @@ import ClientesList from "./components/Clientes/ClientesList";
 import CreditoForm from "./components/Creditos/CreditoForm";
 import CobrosList from "./components/Cobros/CobrosList";
 import RutasList from "./components/Rutas/RutasList";
+import ProductosList from "./components/Productos/ProductosList";
 
 Amplify.configure(outputs);
 
 export default function App() {
-  const [vistaActual, setVistaActual] = useState<'cobros' | 'clientes' | 'creditos' | 'rutas'>('cobros');
+  const [vistaActual, setVistaActual] = useState<'cobros' | 'productos' | 'clientes' | 'creditos' | 'rutas'>('cobros');
 
   return (
     <Authenticator>
       {({ signOut, user }) => (
         <main style={{ minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
-          {/* Header */}
           <div style={{ 
             padding: '15px 20px', 
             backgroundColor: '#6f42c1',
@@ -52,7 +52,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* Navegación */}
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
               <button
                 onClick={() => setVistaActual('cobros')}
@@ -68,6 +67,21 @@ export default function App() {
                 }}
               >
                 💵 Cobros
+              </button>
+              <button
+                onClick={() => setVistaActual('productos')}
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: vistaActual === 'productos' ? 'white' : 'transparent',
+                  color: vistaActual === 'productos' ? '#6f42c1' : 'white',
+                  border: vistaActual === 'productos' ? 'none' : '1px solid white',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                }}
+              >
+                💰 Productos
               </button>
               <button
                 onClick={() => setVistaActual('rutas')}
@@ -117,8 +131,8 @@ export default function App() {
             </div>
           </div>
           
-          {/* Contenido */}
           {vistaActual === 'cobros' && <CobrosList />}
+          {vistaActual === 'productos' && <ProductosList />}
           {vistaActual === 'rutas' && <RutasList />}
           {vistaActual === 'clientes' && <ClientesList />}
           {vistaActual === 'creditos' && <CreditoForm />}

@@ -261,7 +261,7 @@ export default function ClientesList() {
   }
 
   return (
-    <div style={{ padding: '0' }}>
+    <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
         <h2>👥 Clientes</h2>
         <button

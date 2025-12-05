@@ -93,7 +93,7 @@ export default function ClienteDetail({ clienteId, onBack, onOtorgarCredito }: C
     : { texto: 'SIN CRÉDITOS', color: '#6c757d', icono: '💤' };
 
   return (
-    <div style={{ padding: '0' }}>
+    <div>
       {/* Header */}
       <div style={{
         display: 'flex',

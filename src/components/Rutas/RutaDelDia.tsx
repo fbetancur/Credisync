@@ -207,7 +207,7 @@ export default function RutaDelDia() {
   );
 
   return (
-    <div style={{ padding: '0' }}>
+    <div>
       {/* Header */}
       <div style={{
         display: 'flex',

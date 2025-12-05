@@ -1,0 +1,23 @@
+{
+  "name": "CrediSync360 - Gestión de Microcréditos",
+  "short_name": "CrediSync360",
+  "description": "Sistema de gestión de microcréditos con rutas inteligentes, cobros y cierre de caja",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#6f42c1",
+  "theme_color": "#6f42c1",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["finance", "business", "productivity"],
+  "lang": "es-CO",
+  "dir": "ltr",
+  "scope": "/",
+  "prefer_related_applications": false
+}

@@ -224,7 +224,7 @@ export default function CobrosList() {
   };
 
   return (
-    <div style={{ padding: '0' }}>
+    <div>
       <h2>💵 Cobros del Día</h2>
 
       {mensaje && (

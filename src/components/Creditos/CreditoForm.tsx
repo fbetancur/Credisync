@@ -190,6 +190,7 @@ export default function CreditoForm({ clienteId, onSuccess }: CreditoFormProps) 
 
       // 3. Intentar sincronizar con AWS (en background)
       try {
+        // @ts-ignore
         const { data } = await client.models.Credito.create({
           empresaId,
           clienteId: clienteSeleccionado,

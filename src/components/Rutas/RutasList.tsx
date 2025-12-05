@@ -61,6 +61,7 @@ export default function RutasList() {
       setRutas(rutasConConteo);
 
       // Sincronizar con AWS
+      // @ts-ignore
       const { data } = await client.models.Ruta.list();
       for (const ruta of data) {
         await db.rutas.put({

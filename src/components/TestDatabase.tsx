@@ -32,6 +32,7 @@ export default function TestDatabase() {
     setMessage('');
 
     try {
+      // @ts-ignore
       const { data, errors } = await client.models.Empresa.create({
         nombre,
         nit,

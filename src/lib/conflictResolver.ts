@@ -132,7 +132,7 @@ export class ConflictResolver {
   /**
    * Determina la estrategia según el tipo de entidad
    */
-  determinarEstrategia(entidad: string, campo?: string): ConflictStrategy {
+  determinarEstrategia(entidad: string): ConflictStrategy {
     // Para pagos, el cliente siempre gana (datos capturados en campo)
     if (entidad === 'Pago') {
       return ConflictStrategy.CLIENT_WINS;

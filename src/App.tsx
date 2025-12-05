@@ -21,7 +21,7 @@ export default function App() {
       {({ signOut, user }) => (
         <main style={{ minHeight: '100vh', backgroundColor: '#f5f5f5' }}>
           <div style={{ 
-            padding: '15px 20px', 
+            padding: '10px 12px', 
             backgroundColor: '#6f42c1',
             color: 'white',
             boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
@@ -30,42 +30,72 @@ export default function App() {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              marginBottom: '15px'
+              marginBottom: '10px',
+              gap: '8px',
             }}>
-              <h1 style={{ margin: 0, fontSize: '24px' }}>🏦 CrediSync360</h1>
-              <div>
-                <span style={{ marginRight: '15px', fontSize: '14px' }}>
+              <h1 style={{ 
+                margin: 0, 
+                fontSize: '16px', 
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                flex: '0 1 auto',
+              }}>
+                🏦 CrediSync360
+              </h1>
+              <div style={{ 
+                display: 'flex', 
+                alignItems: 'center', 
+                gap: '8px',
+                flex: '0 0 auto',
+              }}>
+                <span style={{ 
+                  fontSize: '11px', 
+                  whiteSpace: 'nowrap', 
+                  overflow: 'hidden', 
+                  textOverflow: 'ellipsis', 
+                  maxWidth: '120px',
+                  display: 'none',
+                }}>
                   {user?.signInDetails?.loginId}
                 </span>
                 <button 
                   onClick={signOut}
                   style={{ 
-                    padding: '8px 16px', 
+                    padding: '5px 10px', 
                     cursor: 'pointer',
                     backgroundColor: 'white',
                     color: '#6f42c1',
                     border: 'none',
                     borderRadius: '4px',
-                    fontWeight: 'bold'
+                    fontWeight: 'bold',
+                    fontSize: '11px',
+                    whiteSpace: 'nowrap',
                   }}
                 >
-                  Cerrar Sesión
+                  Salir
                 </button>
               </div>
             </div>
 
-            <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+            <div style={{ 
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(90px, 1fr))',
+              gap: '6px',
+            }}>
               <button
                 onClick={() => setVistaActual('rutaDelDia')}
                 style={{
-                  padding: '10px 20px',
+                  padding: '6px 8px',
                   backgroundColor: vistaActual === 'rutaDelDia' ? 'white' : 'transparent',
                   color: vistaActual === 'rutaDelDia' ? '#6f42c1' : 'white',
                   border: vistaActual === 'rutaDelDia' ? 'none' : '1px solid white',
                   borderRadius: '5px',
                   cursor: 'pointer',
                   fontWeight: 'bold',
-                  fontSize: '16px',
+                  fontSize: '12px',
+                  whiteSpace: 'nowrap',
+                  textAlign: 'center',
                 }}
               >
                 🗺️ Mi Ruta
@@ -73,14 +103,16 @@ export default function App() {
               <button
                 onClick={() => setVistaActual('cobros')}
                 style={{
-                  padding: '10px 20px',
+                  padding: '6px 8px',
                   backgroundColor: vistaActual === 'cobros' ? 'white' : 'transparent',
                   color: vistaActual === 'cobros' ? '#6f42c1' : 'white',
                   border: vistaActual === 'cobros' ? 'none' : '1px solid white',
                   borderRadius: '5px',
                   cursor: 'pointer',
                   fontWeight: 'bold',
-                  fontSize: '16px',
+                  fontSize: '12px',
+                  whiteSpace: 'nowrap',
+                  textAlign: 'center',
                 }}
               >
                 💵 Cobros
@@ -88,14 +120,16 @@ export default function App() {
               <button
                 onClick={() => setVistaActual('cierreCaja')}
                 style={{
-                  padding: '10px 20px',
+                  padding: '6px 8px',
                   backgroundColor: vistaActual === 'cierreCaja' ? 'white' : 'transparent',
                   color: vistaActual === 'cierreCaja' ? '#6f42c1' : 'white',
                   border: vistaActual === 'cierreCaja' ? 'none' : '1px solid white',
                   borderRadius: '5px',
                   cursor: 'pointer',
                   fontWeight: 'bold',
-                  fontSize: '16px',
+                  fontSize: '12px',
+                  whiteSpace: 'nowrap',
+                  textAlign: 'center',
                 }}
               >
                 💰 Caja
@@ -103,14 +137,16 @@ export default function App() {
               <button
                 onClick={() => setVistaActual('productos')}
                 style={{
-                  padding: '10px 20px',
+                  padding: '6px 8px',
                   backgroundColor: vistaActual === 'productos' ? 'white' : 'transparent',
                   color: vistaActual === 'productos' ? '#6f42c1' : 'white',
                   border: vistaActual === 'productos' ? 'none' : '1px solid white',
                   borderRadius: '5px',
                   cursor: 'pointer',
                   fontWeight: 'bold',
-                  fontSize: '16px',
+                  fontSize: '12px',
+                  whiteSpace: 'nowrap',
+                  textAlign: 'center',
                 }}
               >
                 📦 Productos
@@ -118,14 +154,16 @@ export default function App() {
               <button
                 onClick={() => setVistaActual('rutas')}
                 style={{
-                  padding: '10px 20px',
+                  padding: '6px 8px',
                   backgroundColor: vistaActual === 'rutas' ? 'white' : 'transparent',
                   color: vistaActual === 'rutas' ? '#6f42c1' : 'white',
                   border: vistaActual === 'rutas' ? 'none' : '1px solid white',
                   borderRadius: '5px',
                   cursor: 'pointer',
                   fontWeight: 'bold',
-                  fontSize: '16px',
+                  fontSize: '12px',
+                  whiteSpace: 'nowrap',
+                  textAlign: 'center',
                 }}
               >
                 🗺️ Rutas
@@ -133,14 +171,16 @@ export default function App() {
               <button
                 onClick={() => setVistaActual('clientes')}
                 style={{
-                  padding: '10px 20px',
+                  padding: '6px 8px',
                   backgroundColor: vistaActual === 'clientes' ? 'white' : 'transparent',
                   color: vistaActual === 'clientes' ? '#6f42c1' : 'white',
                   border: vistaActual === 'clientes' ? 'none' : '1px solid white',
                   borderRadius: '5px',
                   cursor: 'pointer',
                   fontWeight: 'bold',
-                  fontSize: '16px',
+                  fontSize: '12px',
+                  whiteSpace: 'nowrap',
+                  textAlign: 'center',
                 }}
               >
                 👥 Clientes
@@ -148,14 +188,16 @@ export default function App() {
               <button
                 onClick={() => setVistaActual('creditos')}
                 style={{
-                  padding: '10px 20px',
+                  padding: '6px 8px',
                   backgroundColor: vistaActual === 'creditos' ? 'white' : 'transparent',
                   color: vistaActual === 'creditos' ? '#6f42c1' : 'white',
                   border: vistaActual === 'creditos' ? 'none' : '1px solid white',
                   borderRadius: '5px',
                   cursor: 'pointer',
                   fontWeight: 'bold',
-                  fontSize: '16px',
+                  fontSize: '12px',
+                  whiteSpace: 'nowrap',
+                  textAlign: 'center',
                 }}
               >
                 💳 Créditos

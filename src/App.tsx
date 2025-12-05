@@ -8,11 +8,12 @@ import CreditoForm from "./components/Creditos/CreditoForm";
 import CobrosList from "./components/Cobros/CobrosList";
 import RutasList from "./components/Rutas/RutasList";
 import ProductosList from "./components/Productos/ProductosList";
+import CierreCaja from "./components/CierreCaja/CierreCaja";
 
 Amplify.configure(outputs);
 
 export default function App() {
-  const [vistaActual, setVistaActual] = useState<'cobros' | 'productos' | 'clientes' | 'creditos' | 'rutas'>('cobros');
+  const [vistaActual, setVistaActual] = useState<'cobros' | 'productos' | 'clientes' | 'creditos' | 'rutas' | 'cierreCaja'>('cobros');
 
   return (
     <Authenticator>
@@ -69,6 +70,21 @@ export default function App() {
                 💵 Cobros
               </button>
               <button
+                onClick={() => setVistaActual('cierreCaja')}
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: vistaActual === 'cierreCaja' ? 'white' : 'transparent',
+                  color: vistaActual === 'cierreCaja' ? '#6f42c1' : 'white',
+                  border: vistaActual === 'cierreCaja' ? 'none' : '1px solid white',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                }}
+              >
+                💰 Caja
+              </button>
+              <button
                 onClick={() => setVistaActual('productos')}
                 style={{
                   padding: '10px 20px',
@@ -81,7 +97,7 @@ export default function App() {
                   fontSize: '16px',
                 }}
               >
-                💰 Productos
+                📦 Productos
               </button>
               <button
                 onClick={() => setVistaActual('rutas')}
@@ -132,6 +148,7 @@ export default function App() {
           </div>
           
           {vistaActual === 'cobros' && <CobrosList />}
+          {vistaActual === 'cierreCaja' && <CierreCaja />}
           {vistaActual === 'productos' && <ProductosList />}
           {vistaActual === 'rutas' && <RutasList />}
           {vistaActual === 'clientes' && <ClientesList />}

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { generateClient } from 'aws-amplify/data';
 import { db } from '../../lib/db';
+import ClienteDetail from './ClienteDetail';
+import { validarNuevoCredito } from '../../lib/creditoValidations';
 
 // @ts-ignore - Ignorar errores de tipo de Amplify
 const client = generateClient();
@@ -11,6 +13,8 @@ export default function ClientesList() {
   const [loading, setLoading] = useState(false);
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
   const [mensaje, setMensaje] = useState('');
+  const [clienteSeleccionado, setClienteSeleccionado] = useState<string | null>(null);
+  const [clienteParaCredito, setClienteParaCredito] = useState<string | null>(null);
 
   const [formData, setFormData] = useState({
     nombre: '',
@@ -193,11 +197,68 @@ export default function ClientesList() {
     setUbicacion(null);
   };
 
+  const handleOtorgarCredito = async (clienteId: string) => {
+    const validacion = await validarNuevoCredito(clienteId);
+    
+    if (!validacion.permitido) {
+      setMensaje(validacion.mensaje || '❌ No se puede otorgar crédito');
+      return;
+    }
+
+    setClienteParaCredito(clienteId);
+    // Aquí se mostrará el formulario de crédito
+  };
+
   const clientesFiltrados = clientes.filter((cliente) =>
     cliente.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
     cliente.documento.includes(busqueda) ||
     (cliente.telefono && cliente.telefono.includes(busqueda))
   );
+
+  // Si hay un cliente seleccionado, mostrar vista detalle
+  if (clienteSeleccionado) {
+    return (
+      <ClienteDetail
+        clienteId={clienteSeleccionado}
+        onBack={() => setClienteSeleccionado(null)}
+        onOtorgarCredito={handleOtorgarCredito}
+      />
+    );
+  }
+
+  // Si hay un cliente para crédito, mostrar formulario de crédito
+  if (clienteParaCredito) {
+    return (
+      <div style={{ padding: '20px' }}>
+        <button
+          onClick={() => setClienteParaCredito(null)}
+          style={{
+            padding: '10px 20px',
+            backgroundColor: '#6c757d',
+            color: 'white',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            marginBottom: '20px',
+          }}
+        >
+          ← Volver
+        </button>
+        <div style={{
+          padding: '20px',
+          backgroundColor: '#e3f2fd',
+          borderRadius: '8px',
+          marginBottom: '20px',
+        }}>
+          <h3>🎯 Otorgar Crédito</h3>
+          <p>Cliente ID: {clienteParaCredito}</p>
+          <p style={{ fontSize: '14px', color: '#666' }}>
+            Aquí se mostrará el formulario de crédito (CreditoForm) con el cliente pre-seleccionado
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div style={{ padding: '20px', maxWidth: '1000px', margin: '0 auto' }}>
@@ -409,38 +470,64 @@ export default function ClientesList() {
             key={cliente.id}
             style={{
               padding: '15px',
-              marginBottom: '10px',
+              marginBottom: '15px',
               backgroundColor: 'white',
               border: '1px solid #dee2e6',
-              borderRadius: '8px',
+              borderRadius: '12px',
               boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
             }}
           >
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start' }}>
-              <div style={{ flex: 1 }}>
-                <h4 style={{ margin: '0 0 8px 0' }}>{cliente.nombre}</h4>
-                <div style={{ fontSize: '14px', color: '#666' }}>
-                  <div>📄 Doc: {cliente.documento}</div>
-                  {cliente.telefono && <div>📱 Tel: {cliente.telefono}</div>}
-                  {cliente.direccion && <div>📍 {cliente.direccion}</div>}
-                  {cliente.barrio && <div>🏘️ {cliente.barrio}</div>}
+            <div
+              onClick={() => setClienteSeleccionado(cliente.id)}
+              style={{ cursor: 'pointer' }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'start', marginBottom: '10px' }}>
+                <div style={{ flex: 1 }}>
+                  <h4 style={{ margin: '0 0 8px 0' }}>👤 {cliente.nombre}</h4>
+                  <div style={{ fontSize: '14px', color: '#666' }}>
+                    <div>📄 {cliente.documento}</div>
+                    {cliente.telefono && <div>📱 {cliente.telefono}</div>}
+                  </div>
+                </div>
+                <div>
+                  <span
+                    style={{
+                      padding: '4px 12px',
+                      backgroundColor: cliente.estado === 'ACTIVO' ? '#d4edda' : '#f8d7da',
+                      color: cliente.estado === 'ACTIVO' ? '#155724' : '#721c24',
+                      borderRadius: '12px',
+                      fontSize: '12px',
+                      fontWeight: 'bold',
+                    }}
+                  >
+                    {cliente.estado}
+                  </span>
                 </div>
               </div>
-              <div>
-                <span
-                  style={{
-                    padding: '4px 12px',
-                    backgroundColor: cliente.estado === 'ACTIVO' ? '#d4edda' : '#f8d7da',
-                    color: cliente.estado === 'ACTIVO' ? '#155724' : '#721c24',
-                    borderRadius: '12px',
-                    fontSize: '12px',
-                    fontWeight: 'bold',
-                  }}
-                >
-                  {cliente.estado}
-                </span>
-              </div>
             </div>
+
+            {/* Botón Otorgar Crédito */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                handleOtorgarCredito(cliente.id);
+              }}
+              style={{
+                width: '100%',
+                padding: '12px',
+                backgroundColor: '#6f42c1',
+                color: 'white',
+                border: 'none',
+                borderRadius: '8px',
+                cursor: 'pointer',
+                fontSize: '16px',
+                fontWeight: 'bold',
+                marginTop: '10px',
+              }}
+            >
+              💰 Otorgar Crédito
+            </button>
+
             {cliente._pendingSync && (
               <div style={{ marginTop: '8px', fontSize: '12px', color: '#856404', backgroundColor: '#fff3cd', padding: '4px 8px', borderRadius: '4px' }}>
                 ⏳ Pendiente de sincronización

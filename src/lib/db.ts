@@ -174,6 +174,31 @@ export interface SyncQueue {
   sincronizadoAt?: string;
 }
 
+// Movimiento de caja
+export interface MovimientoCaja {
+  id: string;
+  tipo: 'ENTRADA' | 'GASTO';
+  detalle: string;
+  valor: number;
+  fecha: string;
+}
+
+// Cierre de caja
+export interface CierreCaja {
+  id: string;
+  fecha: string;
+  cajaBase: number;
+  totalCobrado: number;
+  totalCreditos: number;
+  totalEntradas: number;
+  totalGastos: number;
+  totalCaja: number;
+  cerrado: boolean;
+  movimientos: MovimientoCaja[];
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 // ========================================
 // CLASE DEXIE DATABASE
 // ========================================
@@ -189,6 +214,7 @@ export class CrediSyncDB extends Dexie {
   cuotas!: Table<Cuota, string>;
   pagos!: Table<Pago, string>;
   syncQueue!: Table<SyncQueue, string>;
+  cierresCaja!: Table<CierreCaja, string>;
 
   constructor() {
     super('CrediSyncDB');
@@ -203,6 +229,7 @@ export class CrediSyncDB extends Dexie {
       cuotas: 'id, empresaId, creditoId, clienteId, rutaId, fechaProgramada, estado, numero',
       pagos: 'id, empresaId, creditoId, cuotaId, clienteId, cobradorId, rutaId, fecha, sincronizado',
       syncQueue: 'id, empresaId, usuarioId, entidad, sincronizado, timestamp',
+      cierresCaja: 'id, fecha, cerrado',
     });
   }
 }
@@ -227,6 +254,7 @@ export async function clearDatabase() {
   await db.cuotas.clear();
   await db.pagos.clear();
   await db.syncQueue.clear();
+  await db.cierresCaja.clear();
 }
 
 /**
@@ -242,6 +270,7 @@ export async function getDatabaseStats() {
     creditos: await db.creditos.count(),
     cuotas: await db.cuotas.count(),
     pagos: await db.pagos.count(),
-    pendientesSync: await db.syncQueue.where('sincronizado').equals(0).count(),
+    cierresCaja: await db.cierresCaja.count(),
+    pendientesSync: await db.syncQueue.filter(item => !item.sincronizado).count(),
   };
 }

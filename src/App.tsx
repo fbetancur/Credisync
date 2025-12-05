@@ -7,13 +7,14 @@ import ClientesList from "./components/Clientes/ClientesList";
 import CreditoForm from "./components/Creditos/CreditoForm";
 import CobrosList from "./components/Cobros/CobrosList";
 import RutasList from "./components/Rutas/RutasList";
+import RutaDelDia from "./components/Rutas/RutaDelDia";
 import ProductosList from "./components/Productos/ProductosList";
 import CierreCaja from "./components/CierreCaja/CierreCaja";
 
 Amplify.configure(outputs);
 
 export default function App() {
-  const [vistaActual, setVistaActual] = useState<'cobros' | 'productos' | 'clientes' | 'creditos' | 'rutas' | 'cierreCaja'>('cobros');
+  const [vistaActual, setVistaActual] = useState<'cobros' | 'productos' | 'clientes' | 'creditos' | 'rutas' | 'rutaDelDia' | 'cierreCaja'>('rutaDelDia');
 
   return (
     <Authenticator>
@@ -54,6 +55,21 @@ export default function App() {
             </div>
 
             <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
+              <button
+                onClick={() => setVistaActual('rutaDelDia')}
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: vistaActual === 'rutaDelDia' ? 'white' : 'transparent',
+                  color: vistaActual === 'rutaDelDia' ? '#6f42c1' : 'white',
+                  border: vistaActual === 'rutaDelDia' ? 'none' : '1px solid white',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontWeight: 'bold',
+                  fontSize: '16px',
+                }}
+              >
+                🗺️ Mi Ruta
+              </button>
               <button
                 onClick={() => setVistaActual('cobros')}
                 style={{
@@ -147,6 +163,7 @@ export default function App() {
             </div>
           </div>
           
+          {vistaActual === 'rutaDelDia' && <RutaDelDia />}
           {vistaActual === 'cobros' && <CobrosList />}
           {vistaActual === 'cierreCaja' && <CierreCaja />}
           {vistaActual === 'productos' && <ProductosList />}

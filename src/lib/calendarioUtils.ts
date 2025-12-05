@@ -102,6 +102,7 @@ export const siguienteDiaHabil = (
 
 /**
  * Calcula fechas de cuotas considerando días hábiles
+ * NOTA: Para créditos DIARIOS, solo se excluyen domingos (festivos se trabajan)
  */
 export const calcularFechasCuotas = (
   fechaInicio: Date,
@@ -111,22 +112,35 @@ export const calcularFechasCuotas = (
     excluirDomingos?: boolean;
     excluirSabados?: boolean;
     excluirFestivos?: boolean;
+    diasExcluidos?: string[]; // Fechas específicas a excluir (formato 'yyyy-MM-dd')
   } = {}
 ): Date[] => {
   const {
     excluirDomingos = true,
     excluirSabados = false,
-    excluirFestivos = true,
+    excluirFestivos = false, // Por defecto FALSE para créditos diarios
+    diasExcluidos = [],
   } = opciones;
 
   const fechas: Date[] = [];
   let fechaActual = new Date(fechaInicio);
 
+  const esDiaExcluido = (fecha: Date): boolean => {
+    const fechaStr = format(fecha, 'yyyy-MM-dd');
+    return diasExcluidos.includes(fechaStr);
+  };
+
   for (let i = 0; i < numeroCuotas; i++) {
     // Calcular siguiente fecha según frecuencia
     switch (frecuencia) {
       case 'DIARIO':
-        fechaActual = siguienteDiaHabil(fechaActual, excluirDomingos, excluirSabados, excluirFestivos);
+        // Para DIARIO: solo excluir domingos y días específicos
+        do {
+          fechaActual = addDays(fechaActual, 1);
+        } while (
+          (excluirDomingos && isSunday(fechaActual)) ||
+          esDiaExcluido(fechaActual)
+        );
         break;
 
       case 'SEMANAL':
